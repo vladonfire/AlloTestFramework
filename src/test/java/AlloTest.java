@@ -5,15 +5,15 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class HomeTest {
+public class AlloTest {
 
     @Test
     public void testLogoIsDisplayed() {
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("https://allo.ua/");
-        WebElement logo = driver.findElement(By.xpath("//a[@class=\"v-logo\"]"));
+        WebElement alloLogo = driver.findElement(By.xpath("//a[@class='v-logo']"));
 
-        Assert.assertTrue(logo.isDisplayed(), "Логотип Алло не відображається на сторінці");
+        Assert.assertTrue(alloLogo.isDisplayed(), "Логотип Алло не відображається на сторінці");
     }
 }
