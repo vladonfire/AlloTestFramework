@@ -61,4 +61,29 @@ public class AlloTest {
         sleep(3000);
         driver.quit();
     }
+
+    @Test
+    public void testDeliveryAndPaymentPage() throws InterruptedException {
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.get("https://allo.ua");
+        WebElement buyersButton = driver.findElement(By.xpath("//div[@class= 'mh-button__wrap']"));
+        Assert.assertTrue(buyersButton.isDisplayed(), "кнопка 'покупцям' не відображається на сторінці");
+        buyersButton.click();
+        sleep(2000);
+        WebElement dropDownMenu = driver.findElement(By.xpath("//div[@class='mh-button__dropdown']"));
+        Assert.assertTrue(dropDownMenu.isDisplayed(), "меню не відображається на сторінці");
+        sleep(3000);
+        WebElement deliveryAndPayment = driver.findElement(By.xpath("//a[contains(text(), 'Доставка і оплата')]"));
+        Assert.assertTrue(deliveryAndPayment.isDisplayed(), "елемент з текстом 'Доставка і оплата' не видима на сторінці");
+        deliveryAndPayment.click();
+        sleep(3000);
+        String actualTitleText = driver.getTitle();
+        Assert.assertTrue(actualTitleText.contains("Доставка і оплата"),"тайстл не містить подібний текст");
+        WebElement headerText = driver.findElement(By.xpath("//h3[contains(text(), 'Як оформити замовлення?')]"));
+        Assert.assertTrue(headerText.isDisplayed(),"Заголовок неведимий!");
+        Assert.assertEquals(headerText.getText(), "Як оформити замовлення?", "Заголовок немає такого тексту!");
+        sleep(3000);
+        driver.quit();
+    }
 }
