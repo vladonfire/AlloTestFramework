@@ -35,8 +35,8 @@ public class AlloTest {
         WebElement firstProduct = driver.findElement(By.xpath("(//a[@class= 'product-card__title'])[1]"));
         String productText = firstProduct.getText();
         Assert.assertTrue(productText.contains("Фен"), "Перший товар не містить слово 'Фен'");
-
     }
+
     @Test
     public void testAirPodsSearchAndDetails() throws InterruptedException {
         WebDriver driver = new ChromeDriver();
@@ -59,6 +59,31 @@ public class AlloTest {
         String actualName = productTitleOnPage.getText();
         Assert.assertEquals(actualName,expectedName,"ім'я товару на сторінці не збігається з назвою не іншій сторінці");
         sleep(3000);
+        driver.quit();
+    }
+
+    @Test
+    public void testDeliveryAndPaymentPage() throws InterruptedException {
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.get("https://allo.ua");
+        WebElement buyersButton = driver.findElement(By.xpath("//div[@class= 'mh-button__wrap']"));
+        Assert.assertTrue(buyersButton.isDisplayed(), "кнопка 'покупцям' не відображається на сторінці");
+        buyersButton.click();
+        sleep(2000);
+        WebElement dropDownMenu = driver.findElement(By.xpath("//div[@class='mh-button__dropdown']"));
+        Assert.assertTrue(dropDownMenu.isDisplayed(), "меню не відображається на сторінці");
+        sleep(2000);
+        WebElement deliveryAndPayment = driver.findElement(By.xpath("//a[contains(text(), 'Доставка і оплата')]"));
+        Assert.assertTrue(deliveryAndPayment.isDisplayed(), "елемент з текстом 'Доставка і оплата' невидима на сторінці");
+        deliveryAndPayment.click();
+        sleep(2000);
+        String actualTitleText = driver.getTitle();
+        Assert.assertTrue(actualTitleText.contains("Доставка і оплата"), "тайтл не містить подібний текст");
+        WebElement headerText = driver.findElement(By.xpath("//h3[contains(text(), 'Як оформити замовлення?')]"));
+        Assert.assertTrue(headerText.isDisplayed(), "Заголовок невидимий!");
+        Assert.assertEquals(headerText.getText(), "Як оформити замовлення?", "Заголовок немає такого тексту!");
+        sleep(2000);
         driver.quit();
     }
 }
