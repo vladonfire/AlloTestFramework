@@ -35,8 +35,8 @@ public class AlloTest {
         WebElement firstProduct = driver.findElement(By.xpath("(//a[@class= 'product-card__title'])[1]"));
         String productText = firstProduct.getText();
         Assert.assertTrue(productText.contains("Фен"), "Перший товар не містить слово 'Фен'");
-
     }
+
     @Test
     public void testAirPodsSearchAndDetails() throws InterruptedException {
         WebDriver driver = new ChromeDriver();
@@ -85,6 +85,5 @@ public class AlloTest {
         Assert.assertEquals(headerText.getText(), "Як оформити замовлення?", "Заголовок немає такого тексту!");
         sleep(2000);
         driver.quit();
-
     }
 }
