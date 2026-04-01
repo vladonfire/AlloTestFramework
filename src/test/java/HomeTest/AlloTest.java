@@ -1,16 +1,18 @@
+package HomeTest;
+
+import HomePage.TestInit;
+import HomePage.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
-
 import static java.lang.Thread.sleep;
 
-public class AlloTest {
+public class AlloTest extends TestInit{
+
 
     @Test
     public void testLogoIsDisplayed() {
@@ -85,5 +87,20 @@ public class AlloTest {
         Assert.assertEquals(headerText.getText(), "Як оформити замовлення?", "Заголовок немає такого тексту!");
         sleep(2000);
         driver.quit();
+    }
+
+    @Test
+    public void logoIsDisplayed() {
+        TestInit TestInit = new TestInit();
+        TestInit.StartDriver();
+        TestInit.openUrl("https://allo.ua/");
+
+        HomePage homePage = new HomePage(TestInit.driver);
+
+        boolean isDisplayed = homePage.isAlloIconDisplayed();
+        Assert.assertTrue(isDisplayed, "Іконка АЛЛО не відображається на сторінці!");
+
+        TestInit.quitDriver();
+
     }
 }
