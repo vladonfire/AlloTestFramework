@@ -1,30 +1,27 @@
+package tests;
+
+import basesClass.TestInit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
-
 import static java.lang.Thread.sleep;
 
-public class AlloTest {
+public class AlloTest extends TestInit {
 
     @Test
-    public void testLogoIsDisplayed() {
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
+    public void testLogoIsDisplayed() throws InterruptedException {
         driver.get("https://allo.ua/");
         WebElement alloLogo = driver.findElement(By.xpath("//a[@class='v-logo']"));
+        sleep(3000);
         Assert.assertTrue(alloLogo.isDisplayed(), "Логотип Алло не відображається на сторінці");
     }
 
     @Test
     public void checkFirstProductTitleAfterSearch() throws InterruptedException {
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
         driver.get("https://allo.ua/");
         WebElement searchInput = driver.findElement(By.xpath("//input[@class= 'search-form__input']"));
         Assert.assertTrue(searchInput.isDisplayed(), "Поле пошуку видиме на сторінці!");
@@ -39,8 +36,6 @@ public class AlloTest {
 
     @Test
     public void testAirPodsSearchAndDetails() throws InterruptedException {
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
         driver.get("https://allo.ua/");
         WebElement alloLogo = driver.findElement(By.xpath("//a[@class='v-logo']"));
         Assert.assertTrue(alloLogo.isDisplayed(), "Логотип Алло не відображається на сторінці");
@@ -59,13 +54,10 @@ public class AlloTest {
         String actualName = productTitleOnPage.getText();
         Assert.assertEquals(actualName,expectedName,"ім'я товару на сторінці не збігається з назвою не іншій сторінці");
         sleep(3000);
-        driver.quit();
     }
 
     @Test
     public void testDeliveryAndPaymentPage() throws InterruptedException {
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
         driver.get("https://allo.ua");
         WebElement buyersButton = driver.findElement(By.xpath("//div[@class= 'mh-button__wrap']"));
         Assert.assertTrue(buyersButton.isDisplayed(), "кнопка 'покупцям' не відображається на сторінці");
@@ -84,6 +76,5 @@ public class AlloTest {
         Assert.assertTrue(headerText.isDisplayed(), "Заголовок невидимий!");
         Assert.assertEquals(headerText.getText(), "Як оформити замовлення?", "Заголовок немає такого тексту!");
         sleep(2000);
-        driver.quit();
     }
 }
