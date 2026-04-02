@@ -22,8 +22,6 @@ public class AlloTest extends TestInit {
 
     @Test
     public void checkFirstProductTitleAfterSearch() throws InterruptedException {
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
         driver.get("https://allo.ua/");
         WebElement searchInput = driver.findElement(By.xpath("//input[@class= 'search-form__input']"));
         Assert.assertTrue(searchInput.isDisplayed(), "Поле пошуку видиме на сторінці!");
@@ -38,8 +36,6 @@ public class AlloTest extends TestInit {
 
     @Test
     public void testAirPodsSearchAndDetails() throws InterruptedException {
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
         driver.get("https://allo.ua/");
         WebElement alloLogo = driver.findElement(By.xpath("//a[@class='v-logo']"));
         Assert.assertTrue(alloLogo.isDisplayed(), "Логотип Алло не відображається на сторінці");
@@ -58,13 +54,10 @@ public class AlloTest extends TestInit {
         String actualName = productTitleOnPage.getText();
         Assert.assertEquals(actualName,expectedName,"ім'я товару на сторінці не збігається з назвою не іншій сторінці");
         sleep(3000);
-        driver.quit();
     }
 
     @Test
     public void testDeliveryAndPaymentPage() throws InterruptedException {
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
         driver.get("https://allo.ua");
         WebElement buyersButton = driver.findElement(By.xpath("//div[@class= 'mh-button__wrap']"));
         Assert.assertTrue(buyersButton.isDisplayed(), "кнопка 'покупцям' не відображається на сторінці");
@@ -83,6 +76,5 @@ public class AlloTest extends TestInit {
         Assert.assertTrue(headerText.isDisplayed(), "Заголовок невидимий!");
         Assert.assertEquals(headerText.getText(), "Як оформити замовлення?", "Заголовок немає такого тексту!");
         sleep(2000);
-        driver.quit();
     }
 }
