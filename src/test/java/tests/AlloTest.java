@@ -1,23 +1,22 @@
+package tests;
+
+import basesClass.TestInit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
-
 import static java.lang.Thread.sleep;
 
-public class AlloTest {
+public class AlloTest extends TestInit {
 
     @Test
-    public void testLogoIsDisplayed() {
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
+    public void testLogoIsDisplayed() throws InterruptedException {
         driver.get("https://allo.ua/");
         WebElement alloLogo = driver.findElement(By.xpath("//a[@class='v-logo']"));
+        sleep(3000);
         Assert.assertTrue(alloLogo.isDisplayed(), "Логотип Алло не відображається на сторінці");
     }
 
