@@ -21,4 +21,8 @@ public class TestInit {
     public void closeBrowser() {
         driver.quit();
     }
+
+    public void openUrl(String url){
+        driver.get("https://allo.ua/");
+    }
 }

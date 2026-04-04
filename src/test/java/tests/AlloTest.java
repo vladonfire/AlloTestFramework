@@ -7,74 +7,90 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.DeliveryPaymentPage;
+import pages.HomePage;
+import pages.ProductPage;
+import pages.SearchResultPage;
 
 import static java.lang.Thread.sleep;
 
 public class AlloTest extends TestInit {
 
+    public String urlAllo = "https://allo.ua/";
+
     @Test
-    public void testLogoIsDisplayed() throws InterruptedException {
-        driver.get("https://allo.ua/");
-        WebElement alloLogo = driver.findElement(By.xpath("//a[@class='v-logo']"));
-        sleep(3000);
-        Assert.assertTrue(alloLogo.isDisplayed(), "Логотип Алло не відображається на сторінці");
+    public void testLogoIsDisplayed()  {
+
+        HomePage homePage = new HomePage(driver);
+
+        openUrl(urlAllo);
+
+        Assert.assertTrue(homePage.alloLogo().isDisplayed());
     }
 
     @Test
-    public void checkFirstProductTitleAfterSearch() throws InterruptedException {
-        driver.get("https://allo.ua/");
-        WebElement searchInput = driver.findElement(By.xpath("//input[@class= 'search-form__input']"));
-        Assert.assertTrue(searchInput.isDisplayed(), "Поле пошуку видиме на сторінці!");
-        searchInput.sendKeys("Фен");
-        WebElement searchButton = driver.findElement(By.xpath("//button[@class='search-form__submit-button']"));
-        searchButton.click();
-        sleep(3000);
-        WebElement firstProduct = driver.findElement(By.xpath("(//a[@class= 'product-card__title'])[1]"));
-        String productText = firstProduct.getText();
-        Assert.assertTrue(productText.contains("Фен"), "Перший товар не містить слово 'Фен'");
+    public void checkFirstProductTitleAfterSearch() {
+
+        HomePage homePage = new HomePage(driver);
+        SearchResultPage searchResultPage = new SearchResultPage(driver);
+
+        openUrl(urlAllo);
+
+        Assert.assertTrue(homePage.searchField().isDisplayed());
+
+        homePage.searchField().sendKeys("Фен");
+
+        homePage.searchButton().click();
+
+        Assert.assertTrue(searchResultPage.firstGoods().getText().contains("Фен"));
+
     }
 
     @Test
     public void testAirPodsSearchAndDetails() throws InterruptedException {
-        driver.get("https://allo.ua/");
-        WebElement alloLogo = driver.findElement(By.xpath("//a[@class='v-logo']"));
-        Assert.assertTrue(alloLogo.isDisplayed(), "Логотип Алло не відображається на сторінці");
-        WebElement searchInput = driver.findElement(By.xpath("//input[@class= 'search-form__input']"));
-        searchInput.sendKeys("AirPods 3");
-        WebElement searchButton = driver.findElement(By.xpath("//button[@class='search-form__submit-button']"));
-        searchButton.click();
-        sleep(3000);
-        WebElement firstProductTitleElement = driver.findElement(By.xpath("(//a[@class= 'product-card__title'])[1]"));
-        String firstProductTitleText = firstProductTitleElement.getText();
-        Assert.assertTrue(firstProductTitleText.contains("AirPods") && firstProductTitleText.contains("3"),"Назва товару не містить 'AirPods' або '3'. Отримано: " + firstProductTitleText);
-        String expectedName = firstProductTitleText;
-        sleep(3000);
-        firstProductTitleElement.click();
-        WebElement productTitleOnPage = driver.findElement(By.xpath("//h1[@class='p-view__header-title']"));
-        String actualName = productTitleOnPage.getText();
-        Assert.assertEquals(actualName,expectedName,"ім'я товару на сторінці не збігається з назвою не іншій сторінці");
-        sleep(3000);
+
+        HomePage homePage = new HomePage(driver);
+        SearchResultPage searchResultPage = new SearchResultPage(driver);
+        ProductPage productPage = new ProductPage(driver);
+
+        openUrl(urlAllo);
+
+        Assert.assertTrue(homePage.alloLogo().isDisplayed());
+
+        homePage.searchField().sendKeys("AirPods3");
+        homePage.searchButton().click();
+
+        String nameFirstGoodsAirPods = searchResultPage.getNameFirstAirPods();
+        Assert.assertTrue(nameFirstGoodsAirPods.contains("AirPods 3"));
+        searchResultPage.clickFirstAirPods();
+
+        String actualNameAirPods = productPage.getNameProductHeaderTitle();
+        Assert.assertEquals(actualNameAirPods,nameFirstGoodsAirPods);
+
     }
 
     @Test
     public void testDeliveryAndPaymentPage() throws InterruptedException {
-        driver.get("https://allo.ua");
-        WebElement buyersButton = driver.findElement(By.xpath("//div[@class= 'mh-button__wrap']"));
-        Assert.assertTrue(buyersButton.isDisplayed(), "кнопка 'покупцям' не відображається на сторінці");
-        buyersButton.click();
-        sleep(2000);
-        WebElement dropDownMenu = driver.findElement(By.xpath("//div[@class='mh-button__dropdown']"));
-        Assert.assertTrue(dropDownMenu.isDisplayed(), "меню не відображається на сторінці");
-        sleep(2000);
-        WebElement deliveryAndPayment = driver.findElement(By.xpath("//a[contains(text(), 'Доставка і оплата')]"));
-        Assert.assertTrue(deliveryAndPayment.isDisplayed(), "елемент з текстом 'Доставка і оплата' невидима на сторінці");
-        deliveryAndPayment.click();
-        sleep(2000);
-        String actualTitleText = driver.getTitle();
-        Assert.assertTrue(actualTitleText.contains("Доставка і оплата"), "тайтл не містить подібний текст");
-        WebElement headerText = driver.findElement(By.xpath("//h3[contains(text(), 'Як оформити замовлення?')]"));
-        Assert.assertTrue(headerText.isDisplayed(), "Заголовок невидимий!");
-        Assert.assertEquals(headerText.getText(), "Як оформити замовлення?", "Заголовок немає такого тексту!");
-        sleep(2000);
+
+        HomePage homePage = new HomePage(driver);
+        DeliveryPaymentPage deliveryPaymentPage = new DeliveryPaymentPage(driver);
+
+        openUrl(urlAllo);
+
+        Assert.assertTrue(homePage.buyersButton().isDisplayed());
+        homePage.buyersButton().click();
+
+        Assert.assertTrue(homePage.dropDownMenu().isDisplayed());
+
+        Assert.assertTrue(homePage.deliveryAndPaymentBtn().isDisplayed());
+        homePage.deliveryAndPaymentBtn().click();
+
+        String actualTitle = deliveryPaymentPage.getNamePageTitle();
+        Assert.assertEquals(actualTitle, "Доставка і оплата");
+
+        WebElement howToOrder = deliveryPaymentPage.howToOrderElement();
+        Assert.assertTrue(howToOrder.isDisplayed(), "Секція 'Як оформити замовлення?' невидима на сторінці");
+        Assert.assertEquals(howToOrder.getText(), "Як оформити замовлення?");
+
     }
 }
