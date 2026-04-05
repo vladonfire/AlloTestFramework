@@ -24,11 +24,4 @@ public class DeliveryPaymentPage extends BasePage {
     public String getNamePageTitle() {
         return pageTitle().getText();
     }
-
-    public String getNameHowToOrderElement() {
-        return howToOrderElement().getText();
-    }
-
-
-
 }

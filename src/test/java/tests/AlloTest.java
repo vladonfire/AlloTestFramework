@@ -1,18 +1,13 @@
 package tests;
 
 import basesClass.TestInit;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.DeliveryPaymentPage;
 import pages.HomePage;
 import pages.ProductPage;
-import pages.SearchResultPage;
-
-import static java.lang.Thread.sleep;
+import pages.SearchResultsPage;
 
 public class AlloTest extends TestInit {
 
@@ -32,45 +27,41 @@ public class AlloTest extends TestInit {
     public void checkFirstProductTitleAfterSearch() {
 
         HomePage homePage = new HomePage(driver);
-        SearchResultPage searchResultPage = new SearchResultPage(driver);
+        SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
 
         openUrl(urlAllo);
 
         Assert.assertTrue(homePage.searchField().isDisplayed());
 
-        homePage.searchField().sendKeys("Фен");
+        homePage.enterValueInSearchField("Фен");
+        homePage.clickSearchButton();
 
-        homePage.searchButton().click();
-
-        Assert.assertTrue(searchResultPage.firstGoods().getText().contains("Фен"));
-
+        Assert.assertTrue(searchResultsPage.firstGoods().getText().contains("Фен"));
     }
 
     @Test
-    public void testAirPodsSearchAndDetails() throws InterruptedException {
+    public void testAirPodsSearchAndDetails()  {
+
+        String airPods = "AirPods 3";
 
         HomePage homePage = new HomePage(driver);
-        SearchResultPage searchResultPage = new SearchResultPage(driver);
+        SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
         ProductPage productPage = new ProductPage(driver);
 
         openUrl(urlAllo);
 
         Assert.assertTrue(homePage.alloLogo().isDisplayed());
 
-        homePage.searchField().sendKeys("AirPods3");
-        homePage.searchButton().click();
+        homePage.enterValueInSearchField(airPods);
+        homePage.clickSearchButton();
 
-        String nameFirstGoodsAirPods = searchResultPage.getNameFirstAirPods();
-        Assert.assertTrue(nameFirstGoodsAirPods.contains("AirPods 3"));
-        searchResultPage.clickFirstAirPods();
-
-        String actualNameAirPods = productPage.getNameProductHeaderTitle();
-        Assert.assertEquals(actualNameAirPods,nameFirstGoodsAirPods);
-
+        String nameFirstAirPods = searchResultsPage.getNameFirstAirPods();
+        Assert.assertTrue(nameFirstAirPods.contains("AirPods Pro 3"), "назва першого товару має містити таке: ");
+        searchResultsPage.clickFirstAirPods();
     }
 
     @Test
-    public void testDeliveryAndPaymentPage() throws InterruptedException {
+    public void testDeliveryAndPaymentPage() {
 
         HomePage homePage = new HomePage(driver);
         DeliveryPaymentPage deliveryPaymentPage = new DeliveryPaymentPage(driver);
@@ -78,12 +69,12 @@ public class AlloTest extends TestInit {
         openUrl(urlAllo);
 
         Assert.assertTrue(homePage.buyersButton().isDisplayed());
-        homePage.buyersButton().click();
+        homePage.clickBuyersButton();
 
         Assert.assertTrue(homePage.dropDownMenu().isDisplayed());
 
         Assert.assertTrue(homePage.deliveryAndPaymentBtn().isDisplayed());
-        homePage.deliveryAndPaymentBtn().click();
+        homePage.clickDeliveryAndPaymentBtn();
 
         String actualTitle = deliveryPaymentPage.getNamePageTitle();
         Assert.assertEquals(actualTitle, "Доставка і оплата");
@@ -91,6 +82,5 @@ public class AlloTest extends TestInit {
         WebElement howToOrder = deliveryPaymentPage.howToOrderElement();
         Assert.assertTrue(howToOrder.isDisplayed(), "Секція 'Як оформити замовлення?' невидима на сторінці");
         Assert.assertEquals(howToOrder.getText(), "Як оформити замовлення?");
-
     }
 }

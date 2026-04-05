@@ -4,9 +4,9 @@ import basesClass.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class SearchResultPage extends BasePage {
+public class SearchResultsPage extends BasePage {
 
-    public SearchResultPage(WebDriver driver) {
+    public SearchResultsPage(WebDriver driver) {
         super(driver);
     }
 
@@ -21,7 +21,6 @@ public class SearchResultPage extends BasePage {
         return visibilityOfElementByXpath(FIRST_GOODS_AIRPODS);
     }
 
-
     public String getNameFirstAirPods() {
         return firstGoodsAirPods().getText();
     }
@@ -29,6 +28,4 @@ public class SearchResultPage extends BasePage {
     public void clickFirstAirPods() {
         firstGoodsAirPods().click();
     }
-
-
 }

@@ -19,7 +19,6 @@ public class HomePage extends BasePage {
     private final String DROP_DOWN_MENU = "//div[@class='mh-button__dropdown']";
     private final String DELIVERY_AND_PAYMENT_BTN = "//a[contains(text(), 'Доставка і оплата')]";
 
-
     public WebElement alloLogo(){
         return visibilityOfElementByXpath(ALLO_LOGO);
     }
@@ -42,5 +41,21 @@ public class HomePage extends BasePage {
 
     public WebElement deliveryAndPaymentBtn() {
         return visibilityOfElementByXpath(DELIVERY_AND_PAYMENT_BTN);
+    }
+
+    public void enterValueInSearchField(String value) {
+        searchField().sendKeys(value);
+    }
+
+    public void clickSearchButton() {
+        searchButton().click();
+    }
+
+    public void clickBuyersButton() {
+        buyersButton().click();
+    }
+
+    public void clickDeliveryAndPaymentBtn() {
+        deliveryAndPaymentBtn().click();
     }
 }

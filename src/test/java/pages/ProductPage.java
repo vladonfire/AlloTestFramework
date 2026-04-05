@@ -19,6 +19,4 @@ public class ProductPage extends BasePage {
     public String getNameProductHeaderTitle() {
         return productHeaderTitle().getText();
     }
-
-
 }
