@@ -56,7 +56,7 @@ public class AlloTest extends TestInit {
         homePage.clickSearchButton();
 
         String nameFirstAirPods = searchResultsPage.getNameFirstAirPods();
-        Assert.assertTrue(nameFirstAirPods.contains("AirPods Pro 3"), "назва першого товару має містити таке: ");
+        Assert.assertTrue(nameFirstAirPods.contains("AirPods Pro 3"));
         searchResultsPage.clickFirstAirPods();
     }
 
