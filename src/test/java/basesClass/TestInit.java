@@ -22,7 +22,7 @@ public class TestInit {
         driver.quit();
     }
 
-    public void openUrl(String url){
+    public void openUrl(String url) {
         driver.get("https://allo.ua/");
     }
 }

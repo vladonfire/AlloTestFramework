@@ -15,7 +15,6 @@ public class AlloTest extends TestInit {
 
     @Test
     public void testLogoIsDisplayed()  {
-
         HomePage homePage = new HomePage(driver);
 
         openUrl(urlAllo);
@@ -25,7 +24,6 @@ public class AlloTest extends TestInit {
 
     @Test
     public void checkFirstProductTitleAfterSearch() {
-
         HomePage homePage = new HomePage(driver);
         SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
 
@@ -41,12 +39,11 @@ public class AlloTest extends TestInit {
 
     @Test
     public void testAirPodsSearchAndDetails()  {
-
-        String airPods = "AirPods 3";
-
         HomePage homePage = new HomePage(driver);
         SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
         ProductPage productPage = new ProductPage(driver);
+
+        String airPods = "AirPods 3";
 
         openUrl(urlAllo);
 
@@ -58,11 +55,13 @@ public class AlloTest extends TestInit {
         String nameFirstAirPods = searchResultsPage.getNameFirstAirPods();
         Assert.assertTrue(nameFirstAirPods.contains("AirPods Pro 3"));
         searchResultsPage.clickFirstAirPods();
+
+        String nameOnProductPage = productPage.getNameProductHeaderTitle();
+        Assert.assertEquals(nameFirstAirPods, nameOnProductPage, "назви не збігаються!");
     }
 
     @Test
     public void testDeliveryAndPaymentPage() {
-
         HomePage homePage = new HomePage(driver);
         DeliveryPaymentPage deliveryPaymentPage = new DeliveryPaymentPage(driver);
 
@@ -79,8 +78,7 @@ public class AlloTest extends TestInit {
         String actualTitle = deliveryPaymentPage.getNamePageTitle();
         Assert.assertEquals(actualTitle, "Доставка і оплата");
 
-        WebElement howToOrder = deliveryPaymentPage.howToOrderElement();
-        Assert.assertTrue(howToOrder.isDisplayed(), "Секція 'Як оформити замовлення?' невидима на сторінці");
-        Assert.assertEquals(howToOrder.getText(), "Як оформити замовлення?");
+        Assert.assertTrue(deliveryPaymentPage.howToOrderElement().isDisplayed(), "Секція 'Як оформити замовлення?' невидима на сторінці");
+        Assert.assertEquals(deliveryPaymentPage.howToOrderElement().getText(), "Як оформити замовлення?");
     }
 }
